@@ -105,9 +105,13 @@ function exportPdf() { const r = currentRequest, { jsPDF } = window.jspdf, doc =
 async function productsView() {
   await loadProducts();
   content.innerHTML = `<section class="panel"><div class="line"><div><h1>Productos</h1><p class="muted">Crea, modifica, activa o desactiva el catálogo.</p></div><button id="new-product">+ Agregar producto</button></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Producto</th><th>Categoría</th><th>Unidad</th><th>Precio</th><th>Áreas asignadas</th><th>Estado</th><th></th></tr></thead><tbody>${products.map(p => `<tr><td>${esc(p.code)}</td><td>${esc(p.name)}<small>${esc(p.supplier || '')}</small></td><td>${esc(p.categories?.name || '—')}</td><td>${esc(p.unit)}</td><td>${money(p.unit_price)}</td><td>${p.product_scopes.map(s => { const b=branches.find(x=>x.id===s.branch_id)?.name||''; const a=areas.find(x=>x.id===s.area_id)?.name||''; return esc(`${b} · ${a}`); }).join('<br>') || '<span class="muted">Sin asignar</span>'}</td><td>${p.active ? '<span class="badge">Activo</span>' : '<span class="badge">Inactivo</span>'}</td><td><button class="secondary edit-product" data-id="${p.id}">Editar</button></td></tr>`).join('') || '<tr><td colspan="8" class="muted">No hay productos.</td></tr>'}</tbody></table></div></section>`;
-  newProduct.onclick = () => productForm();
-  content.querySelectorAll('.edit-product').forEach(b => b.onclick = () => productForm(products.find(p => p.id === Number(b.dataset.id))));
-}
+  const addButton = document.querySelector('#new-product');
+if (addButton) addButton.onclick = () => productForm();
+content.querySelectorAll('.edit-product').forEach(button => {
+  button.onclick = () => productForm(
+    products.find(product => product.id === Number(button.dataset.id))
+  );
+});
 function productForm(p = null) {
   const selected = new Set((p?.product_scopes || []).map(s => `${s.branch_id}:${s.area_id}`));
   const scopeOptions = branches.flatMap(b => areas.map(a => `<label class="check"><input type="checkbox" name="scope" value="${b.id}:${a.id}" ${selected.has(`${b.id}:${a.id}`) ? 'checked' : ''}> ${esc(b.name)} · ${esc(a.name)}</label>`)).join('');
