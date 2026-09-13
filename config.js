@@ -1,2 +1,4 @@
-window.SUPABASE_URL = "https://gfxrsyjsgsksqbuybcor.supabase.co";
-window.SUPABASE_ANON_KEY = "sb_publishable_ajFqpesvZbEm4LdKVn3XYg__PSNpiWW";
+window.ORUJOS_CONFIG = {
+  supabaseUrl: "https://gfxrsyjsgsksqbuybcor.supabase.co",
+  supabasePublishableKey: "sb_publishable_ajFqpesvZbEm4LdKVn3XYg__PSNpiWW"
+};
