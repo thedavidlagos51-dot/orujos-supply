@@ -13,10 +13,10 @@ const error = msg => `<div class="notice error">${esc(msg)}</div>`;
 async function query(builder) { const { data, error } = await builder; if (error) throw error; return data; }
 
 function setupNeeded() {
-  root.innerHTML = `<section class="login stack"><div class="brand">ORUJOS</div><h1>Supply</h1>${error('Falta configurar la conexión con Supabase.')}<p>Edite <code>public/config.js</code> con la URL y la clave publishable del proyecto antes de publicar.</p></section>`;
+  root.innerHTML = `<section class="login stack"><img class="brand-logo" src="/logo-orujos.png" alt="Orujos Supply"><h1>Supply</h1>${error('Falta configurar la conexión con Supabase.')}<p>Edite <code>public/config.js</code> con la URL y la clave publishable del proyecto antes de publicar.</p></section>`;
 }
 function login() {
-  root.innerHTML = `<section class="login stack"><div class="brand">ORUJOS</div><div class="muted">Supply · solicitudes internas</div><h1>Iniciar sesión</h1><div id="form-error"></div><label>Correo<input id="email" type="email" autocomplete="email" required></label><label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label><button id="signin">Entrar</button></section>`;
+  root.innerHTML = `<section class="login stack"><img class="brand-logo" src="/logo-orujos.png" alt="Orujos Supply"><div class="muted">Supply · solicitudes internas</div><h1>Iniciar sesión</h1><div id="form-error"></div><label>Correo<input id="email" type="email" autocomplete="email" required></label><label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label><button id="signin">Entrar</button></section>`;
   document.querySelector('#signin').onclick = async () => {
     try { const { error: e } = await db.auth.signInWithPassword({ email: email.value, password: password.value }); if (e) throw e; await boot(); }
     catch (e) { document.querySelector('#form-error').innerHTML = error('No fue posible iniciar sesión. Verifique sus datos.'); }
