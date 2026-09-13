@@ -43,7 +43,7 @@ async function loadProducts() {
   products = await query(q);
 }
 function shell(view) {
-  root.innerHTML = `<div class="shell"><header class="top"><div><div class="brand">ORUJOS</div><span class="muted">Supply · ${esc(profile.full_name)}</span></div><button class="secondary" id="logout">Salir</button></header><nav class="nav"><button data-view="home">Inicio</button><button data-view="request">Nueva solicitud</button><button data-view="history">Historial</button>${admin() ? '<button data-view="products">Productos</button><button data-view="settings">Configuración</button>' : ''}</nav><section id="content"></section></div>`;
+  root.innerHTML = `<div class="shell"><header class="top"><div><img class="brand-logo" src="/logo-orujos.png" alt="Orujos Supply">/div><span class="muted">Supply · ${esc(profile.full_name)}</span></div><button class="secondary" id="logout">Salir</button></header><nav class="nav"><button data-view="home">Inicio</button><button data-view="request">Nueva solicitud</button><button data-view="history">Historial</button>${admin() ? '<button data-view="products">Productos</button><button data-view="settings">Configuración</button>' : ''}</nav><section id="content"></section></div>`;
   document.querySelector('#logout').onclick = async () => { await db.auth.signOut(); login(); };
   document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => shell(b.dataset.view));
   ({ home, request: requestView, history, products: productsView, settings }[view])();
